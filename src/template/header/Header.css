@@ -1,0 +1,67 @@
+header {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    grid-template-areas: "search breadcrumbs profile";
+}
+
+header #profile {
+    grid-area: profile;
+    display: grid;
+    grid-template-columns: auto 35px;
+    gap: .5rem;
+    justify-content: right;
+    align-items: center;
+    height: 100%;
+    margin-right: .5rem;
+    font-weight: 600;
+}
+
+header #search {
+    grid-area: search;
+}
+
+header #breadcrumbs {
+    grid-area: breadcrumbs;
+}
+
+#profile-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+#name-id {
+    font-size: 1em;
+    margin: 0;
+    line-height: 1;
+}
+
+#role-id {
+    font-weight: 100;
+    font-size: .8em;
+    margin: 0;
+    line-height: 1;
+}
+
+header #profile-pic {
+    height: calc(100% - 10px);
+    aspect-ratio: 1;
+    border: solid thin rgba(126, 126, 126, .2);
+    border-radius: 50%;
+    background-color: var(--bg-color);
+}
+
+@media (max-width:899px) {
+    header {
+        display: grid;
+        grid-template-columns: 1fr auto 1fr;
+        grid-template-rows: 1fr;
+        grid-template-areas: "search search profile"
+            "breadcrumbs breadcrumbs breadcrumbs";
+    }
+
+    #breadcrumbs {
+        height: 0 !important;
+    }
+}

@@ -1,0 +1,35 @@
+.mobile-navbar {
+	position: fixed;
+	display: flex;
+	bottom: .5rem;
+	left: 1.5rem;
+	width: calc(100% - 5rem);
+	padding: 0 1rem;
+	z-index: 9999;
+	background-color: var(--bg-color);
+	border-radius: 1rem;
+	box-shadow: 1rem 0 0 var(--bg-color), -1rem 0 0 var(--bg-color);
+	height: 50px;
+	justify-content: space-between;
+	align-items: center;
+	text-align: center;
+}
+
+.mobile-navbar>div {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#menu-button {
+	background-color: var(--text-color);
+	color: var(--bg-color);
+	height: 30px;
+	width: 50px;
+	border-radius: .5rem;
+	transform: scale(1);
+}
+
+.mobile-navbar>div:active, .mobile-navbar>div:hover {
+	transform: scale(1.1) !important;
+}

@@ -1,0 +1,134 @@
+nav {
+    position: relative;
+}
+
+#root .nav-link>span:not(.nav-icon) {
+    display: none;
+}
+
+#root .nav-link .nav-icon {
+    margin: 0;
+}
+
+#root .menu-logo, #root .menu-logo img {
+    width: 35px;
+    height: 38px;
+    object-fit: cover;
+    object-position: top left;
+    margin: 0;
+    border-bottom: dotted 1px transparent;
+}
+
+#root .menu-logo {
+    margin: 1rem 0 1rem 1.2rem;
+}
+
+#root .close-desktop-menu {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background-color: var(--text-color);
+    color: var(--bg-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 1;
+    position: absolute;
+    top: calc(90% - 15px);
+    right: -15px;
+    cursor: pointer;
+    transform: rotate(180deg);
+}
+
+.close-desktop-menu:hover {
+    width: 40px;
+    height: 40px;
+    top: calc(90% - 20px);
+    right: -20px;
+}
+
+.close-desktop-menu svg {
+    margin: 0;
+    margin-right: 2px;
+}
+
+
+[data-theme='dark'] .menu-logo img {
+    filter: invert(1) hue-rotate(180deg);
+}
+
+.nav-list {
+    list-style-type: none;
+    padding: 0;
+    width: calc(100% - 2rem);
+    margin-left: 1rem;
+}
+
+.nav-item {
+    margin-bottom: .5rem;
+}
+
+.nav-item a {
+    text-decoration: none;
+    color: var(--text-color);
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+}
+
+.nav-link {
+    height: 25px;
+}
+
+.nav-item a:hover {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+}
+
+.nav-icon {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.nav-item a.active {
+    background-color: var(--text-color);
+    color: var(--bg-color);
+}
+
+.close-mobile-menu {
+    text-align: right;
+}
+
+.close-mobile-menu svg {
+    margin-left: -1rem;
+}
+
+#root.desktop-menu--opened .nav-link>span:not(.nav-icon), .mobile-menu .nav-link>span:not(.nav-icon) {
+    display: block !important;
+}
+
+#root.desktop-menu--opened .nav-link .nav-icon, .mobile-menu .nav-link .nav-icon {
+    margin-right: 10px !important;
+}
+
+#root.desktop-menu--opened .menu-logo, .mobile-menu .menu-logo {
+    width: calc(100% - 2rem) !important;
+    border-bottom: dotted 1px var(--text-color) !important;
+    object-fit: contain !important;
+    margin: 1rem auto !important;
+}
+
+#root.desktop-menu--opened .menu-logo img, .mobile-menu .menu-logo img {
+    width: 100% !important;
+    max-width: 100px !important;
+    margin: auto !important;
+    display: block !important;
+    padding-bottom: 1rem !important;
+    object-fit: contain !important;
+}
+
+#root.desktop-menu--opened .close-desktop-menu, .mobile-menu .close-desktop-menu {
+    transform: rotate(0deg);
+}
