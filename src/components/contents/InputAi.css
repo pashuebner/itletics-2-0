@@ -18,9 +18,9 @@
 
 .ai-area .ai-input-wrap {
     width: 70%;
-    max-width: 600px;
+    max-width: 800px;
     min-width: 280px;
-    height: 58px !important;
+    height: 70px !important;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -44,11 +44,12 @@
     z-index: 1;
     pointer-events: none;
     transform: translateX(-50%) translateY(-50%);
-    opacity: .5;
+    opacity: .6;
     transition: all 1s ease;
 }
 
-.ai-area .ai-input-wrap:hover:before {
+.ai-area .ai-input-wrap:hover:before, .ai-area .ai-input-wrap:focus:before, .ai-area .ai-input-wrap:active:before {
+    opacity: .1;
     transform-origin: center;
     transform: translateX(-50%) translateY(-50%) rotate(180deg);
 }
@@ -59,7 +60,7 @@
 
 .ai-area input {
     display: block;
-    height: 50px;
+    height: calc(100% - 8px);
     width: calc(100% - 10px);
     text-align: center;
     font-size: 18px;
