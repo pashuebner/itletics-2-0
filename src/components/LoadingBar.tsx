@@ -13,8 +13,8 @@ const LoadingBar: React.FC<LoadingBarProps> = ({ loading }) => {
       setVisible(true); // Progressbar sichtbar machen
       setProgress(0);
       const interval = setInterval(() => {
-        setProgress((prev) => (prev < 90 ? prev + 10 : prev)); // Fortschritt bis maximal 90%
-      }, 100);
+        setProgress((prev) => (prev < 95 ? prev + 5 : prev)); 
+      }, 50);
 
       return () => clearInterval(interval);
     } else if (!loading && progress < 100) {
@@ -35,8 +35,8 @@ const LoadingBar: React.FC<LoadingBarProps> = ({ loading }) => {
 
   return (
     visible ? (
-      <div style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '4px', background: '#f0f0f0' }}>
-        <div style={{ width: `${progress}%`, height: '100%', background: '#29d', transition: 'width 0.2s ease' }} />
+      <div className="loading-bar" style={{ position: 'relative', gridArea: 'content', top: 0, left: 0, width: '100%', height: '1rem', background: 'var(--bg-color)' }}>
+        <div style={{ width: `${progress}%`, height: '100%', backgroundColor: 'transparent', transition: 'width 0.2s ease' }} />
       </div>
     ) : null
   );

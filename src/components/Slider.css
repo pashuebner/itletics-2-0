@@ -16,6 +16,7 @@
     height: 100%;
     min-height: 200px;
     overflow-x: hidden;
+    overflow-y: hidden;
     border-radius: .5rem;
     background: var(--body-color);
 }
@@ -58,9 +59,10 @@
     cursor: grab;
     position: relative;
     padding: 0 0;
-    width: calc(80% - 80px - 2rem);
+    width: calc(90% - 80px - 2rem);
     min-width: 230px;
-    height: auto;
+    max-width: 400px;
+    height: 100%;
     margin-top: 1rem;
     margin-bottom: 1rem;
     transform: none !important;
@@ -121,13 +123,15 @@
 }
 
 .card-slider>.card>.card {
-    transition: transform .3s ease;
+    transition: all .3s ease;
 }
 
 .card-slider>.card:not(.active)>.card {
     margin: 0;
 }
-
+.card-slider>.card:not(.active){
+    opacity: 0.5;
+}
 .placeholder-for-slides {
     background-color: var(--bg-color);
     border: dotted 2px rgba(126, 126, 126, .5);

@@ -47,9 +47,12 @@
     width: calc((100% - 4rem)/5);
     flex-grow: 0;
 }
-
-.cards[data-column="5"]>div .cards[data-bg="transparent"]>.card>div {
-
+.cards[data-bg="transparent"] > .card > div{
+    border:solid 1px rgba(126,126,126,.1);
+    border-radius:1rem;
+}
+.cards[data-bg="transparent"]>.card>div {
     background-color: transparent !important;
     box-shadow: none !important;
+    align-items: left;
 }

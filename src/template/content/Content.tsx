@@ -16,15 +16,15 @@ const Content: React.FC = () => {
     // Simuliere das Laden der neuen Route
     const timeout = setTimeout(() => {
       setLoading(false);
-    }, 1000); // Angepasste Ladezeit oder API-Anfragen einfügen
+    }, 100); // Angepasste Ladezeit oder API-Anfragen einfügen
 
     return () => clearTimeout(timeout); // Aufräumen des Timers
   }, [location]); // Jedes Mal ausführen, wenn sich der Pfad ändert
 
   return (
     <>
+    <LoadingBar loading={loading} />
       <div id='content'>
-        <LoadingBar loading={loading} />
         <div className='content-inner'>
           <Routes>
             <Route path="/" element={<Dashboard />} />

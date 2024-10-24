@@ -67,9 +67,13 @@ button[data-type="icon"] {
     background-color: transparent;
     border: none !important;
     width: 100%;
-    border-radius: 0;
+    border-radius:0;
     padding: 0;
     overflow: visible;
+    align-items: left;
+    text-align: left;
+    box-shadow:0 0 0 2rem var(--body-color);
+    transition:all 0.1s linear;
 }
 
 button[data-type="icon"] a, button[data-type="icon"] span {
@@ -79,9 +83,9 @@ button[data-type="icon"] a, button[data-type="icon"] span {
     display: block;
 }
 
-button[data-type="icon"] a:after {
+/*button[data-type="icon"] a:after {
     content: "+";
-    width: 2rem;
+    width: calc(100% + 2rem);
     height: 1.75rem;
     padding: 0 0 .25rem 0;
     background-color: var(--acc-color);
@@ -93,18 +97,29 @@ button[data-type="icon"] a:after {
     display: flex;
     justify-content: center;
     align-items: center;
-    position: absolute;
-    top: -1rem;
-    right: -1rem;
-}
+    position: relativ;
+    margin-top:.5rem;
+    margin-left:-1rem;
+    margin-bottom:-1rem;
+}*/
 
 button[data-type="icon"] svg, button[data-type="icon"] img {
-    width: 80%;
-    height: 80%;
-    max-height: 20px;
+    height: 100%;
+    width:auto;
+    aspect-ratio: 1;
+    max-height: 25px;
+    min-height:20px;
     object-fit: contain;
+    transition:all .1s ease;
 }
-
+button[data-type="icon"]:hover{
+    background-color:var(--acc-color);
+    box-shadow:0 0 0 2rem var(--acc-color);
+    color:white!important;
+}
+button[data-type="icon"]:hover a{
+    color:white;
+}
 button[data-type="icon"]:before {
     content: none;
 }
@@ -117,7 +132,6 @@ button[data-type="icon"] h2, button[data-type="icon"] h3, button[data-type="icon
 
 
     button[data-type="icon"] h2, button[data-type="icon"] h3, button[data-type="icon"] p {
-        font-size: 12px !important;
-        text-align: center;
+        font-size: 14px !important;
     }
 }

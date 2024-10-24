@@ -1,14 +1,14 @@
 .mobile-navbar {
 	position: fixed;
 	display: flex;
-	bottom: .5rem;
+	bottom: .8rem;
 	left: 1.5rem;
 	width: calc(100% - 5rem);
 	padding: 0 1rem;
 	z-index: 9999;
-	background-color: var(--bg-color);
+	background-color: var(--body-color);
 	border-radius: 1rem;
-	box-shadow: 1rem 0 0 var(--bg-color), -1rem 0 0 var(--bg-color);
+	box-shadow: 1rem 0 0 var(--body-color), -1rem 0 0 var(--body-color);
 	height: 50px;
 	justify-content: space-between;
 	align-items: center;
@@ -22,12 +22,16 @@
 }
 
 #menu-button {
-	background-color: var(--text-color);
-	color: var(--bg-color);
+	background-color: var(--body-color);
+	color: var(--text-color);
 	height: 30px;
 	width: 50px;
 	border-radius: .5rem;
 	transform: scale(1);
+}
+#menu-button svg{
+	width:25px;
+	height:25px;
 }
 
 .mobile-navbar>div:active, .mobile-navbar>div:hover {

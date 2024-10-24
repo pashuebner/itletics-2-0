@@ -1,6 +1,7 @@
 // Slider.tsx
 import React, { useState, useRef } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { NavLink } from 'react-router-dom';
 import './Slider.css';
 import Button from './contents/Button';
 
@@ -45,7 +46,7 @@ const Slider: React.FC<SliderProps> = ({ children }) => {
     setIsDragging(false);
     const movedBy = currentTranslate - prevTranslate;
 
-    if (movedBy < -10 && currentIndex < totalSlides - 1) {
+    if (movedBy < -10 && currentIndex < totalSlides) {
       handleNext();
     } else if (movedBy > 10 && currentIndex > 0) {
       handlePrev();
@@ -58,7 +59,7 @@ const Slider: React.FC<SliderProps> = ({ children }) => {
 
   // Arrow navigation handlers
   const handleNext = () => {
-    if (currentIndex < totalSlides - 1) {
+    if (currentIndex < totalSlides) {
       setCurrentIndex(currentIndex + 1);
       const newTranslate = -((currentIndex + 1) * sliderRef.current!.offsetWidth);
       setPrevTranslate(newTranslate);
@@ -104,6 +105,13 @@ const Slider: React.FC<SliderProps> = ({ children }) => {
                 {child}
               </div>
             ))}
+            <div className={`card add-element add-league ${totalSlides === currentIndex ? 'active' : ''}`}>
+              <div className={`card`}>
+                <div className="card-inner">
+                <NavLink aLink="/">+</NavLink>
+                </div>
+              </div>
+            </div>
           </div>
         ) : (
           <div className="placeholder-for-slides">
@@ -120,7 +128,7 @@ const Slider: React.FC<SliderProps> = ({ children }) => {
               <FaChevronLeft className="nav-icon" />
             </div>
           )}
-          {currentIndex < totalSlides - 1 && (
+          {currentIndex < totalSlides && (
             <div className="slider-nav--next" onClick={handleNext}>
               <FaChevronRight className="nav-icon" />
             </div>

@@ -2,16 +2,21 @@
     padding: 1rem;
     background-color: var(--body-color);
     width: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    display: block;
     border-radius: .5rem;
     flex-shrink: 1;
     flex-grow: 1;
     box-shadow: 0 100px 0 0 var(--body-color), 0 -100px 0 0 var(--body-color);
 }
-
+.card.add-element > .card{
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    height:100%;
+}
+.card.add-element a{
+    font-size:30px;
+}
 .cards>.card>div>*:first-child {
     margin-top: 0 !important;
 }

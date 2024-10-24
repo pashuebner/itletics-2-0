@@ -15,6 +15,17 @@
     overflow-y: auto;
     box-shadow: -100vw 0 0 100vw rgba(126, 126, 126, .1), 100vw 0 0 100vw rgba(126, 126, 126, .1);
 }
+.content-inner > *:last-child{
+    margin-bottom:3rem;
+}
+.loading-bar{
+    transform:translateY(.5rem);
+    overflow: hidden;
+    border-radius:1rem 1rem 0 0;
+}
+.loading-bar > div{
+    background-image:linear-gradient(var(--acc-color) 50%, var(--bg-color) 50%, var(--bg-color));
+}
 
 @media (min-width:2000px) {
     .content-inner {
@@ -30,9 +41,12 @@
 @media (max-width:899px) {
     #content {
         height: calc(100% - 70px);
+        width:calc(100% + 1rem);
+        margin-top:.5rem;
+        margin-left:-.5rem;
+        border-radius:0;
         border: solid thin rgba(126, 126, 126, .1);
     }
-
     .content-inner {
         width: 100%;
         height: 100%;
