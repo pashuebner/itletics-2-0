@@ -1,6 +1,6 @@
 // Slider.tsx
 import React, { useState, useRef } from 'react';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { FaChevronLeft, FaChevronRight, FaFutbol, FaHockeyPuck } from 'react-icons/fa';
 import { NavLink } from 'react-router-dom';
 import './Slider.css';
 import Button from './contents/Button';
@@ -78,8 +78,8 @@ const Slider: React.FC<SliderProps> = ({ children }) => {
 
   return (
     <div className="slider-wrapper">
+      {React.Children.count(children) > 0 ? (
       <div className="slider-container">
-        {React.Children.count(children) > 0 ? (
           <div
             className="card-slider"
             style={{
@@ -97,6 +97,9 @@ const Slider: React.FC<SliderProps> = ({ children }) => {
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
           >
+            <div className={`slider-icon`}>
+                  <FaHockeyPuck></FaHockeyPuck>
+            </div>
             {React.Children.map(children, (child, index) => (
               <div
                 key={index}
@@ -113,13 +116,13 @@ const Slider: React.FC<SliderProps> = ({ children }) => {
               </div>
             </div>
           </div>
-        ) : (
-          <div className="placeholder-for-slides">
-            <p>Noch kein Turnier angelegt?</p>
-            <Button aLink="/Turnierverwaltung">Turnier anlegen</Button>
-          </div>
-        )}
       </div>
+      ) : (
+        <div className="placeholder-for-slides">
+          <p>Noch kein Turnier angelegt?</p>
+          <Button aLink="/Turnierverwaltung">Turnier anlegen</Button>
+        </div>
+      )}
 
       {React.Children.count(children) > 0 && (
         <>

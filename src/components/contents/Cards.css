@@ -48,7 +48,6 @@
     flex-grow: 0;
 }
 .cards[data-bg="transparent"] > .card > div{
-    border:solid 1px rgba(126,126,126,.1);
     border-radius:1rem;
 }
 .cards[data-bg="transparent"]>.card>div {

@@ -3,16 +3,15 @@ import Cards from '../components/contents/Cards';
 import Card from '../components/contents/Card';
 import Button from '../components/contents/Button';
 import Slider from '../components/Slider';
-import { FaCheckCircle, FaFutbol, FaTrophy, FaQuestion } from 'react-icons/fa';
-import { FaCircleXmark, FaPeopleGroup, FaPerson } from 'react-icons/fa6';
+import { FaCheckCircle, FaFutbol, FaTrophy, FaQuestion, FaHockeyPuck } from 'react-icons/fa';
+import { FaCircleXmark, FaPeopleGroup } from 'react-icons/fa6';
 import InputAi from '../components/contents/InputAi';
 function Dashboard() {
 
   return (
     <>
         <h1>Dashboard</h1>
-        <h2>Quick Actions & Übersicht</h2>
-        <Cards columns="4">
+        <Cards disableOn="mobile" columns="4">
           <Card>
             <Button aLink="/Turnierverwaltung" dataType='icon'><FaTrophy/>
             <h3>Turnier</h3>
@@ -20,7 +19,7 @@ function Dashboard() {
             </Button>
           </Card>
           <Card>
-            <Button aLink="/Turnierverwaltung" dataType='icon' ><FaFutbol/>
+            <Button aLink="/Turnierverwaltung" dataType='icon' ><FaHockeyPuck/>
             <h3>Liga</h3>
             Starte deine neue Saison.
             </Button>
@@ -38,6 +37,7 @@ function Dashboard() {
             </Button>
           </Card>
         </Cards>
+        <h2>Übersicht</h2>
         <Cards columns="2">
         <Slider>
           <Card>
@@ -75,7 +75,7 @@ function Dashboard() {
         </Slider>
         </Cards>
         <h2>Support</h2>
-        <Cards columns="4">
+        <Cards columns="3">
           <Card>
               <InputAi type='help'>
               </InputAi>
@@ -90,8 +90,10 @@ function Dashboard() {
                 Hier findest du den direkten Kontakt zu uns. Wir stehen dir für alle Fragen zur Seite.
                 <br></br><br></br><a href='mailto:info@itletics.de'>info@itletics.de</a>
             </Card>
-            <Card>
-              <h3>Impressum und Datenschutz</h3>
+          </Cards>
+          <Cards columns='1' alignText="center">
+            <Card bgColor='transparent'>
+            <h3>Impressum und Datenschutz</h3>
                 Alles was du über uns und unsere Datenverarbeitung wissen musst, findest du hier.
                 <p><a href='#'>Impressum</a> | <a href='#'>Datenschutz</a></p>
             </Card>

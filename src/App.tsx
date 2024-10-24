@@ -18,13 +18,13 @@ const App: React.FC = () => {
     <Router>
       <HelmetProvider>
         <IconChanger/>
-        <MobileNavBar/>
-        <Header />
-        <Nav />
-        <Content />
-        <Sidebar />
-        <Footer />
       </HelmetProvider>
+      <MobileNavBar/>
+      <Header />
+      <Nav />
+      <Content />
+      <Sidebar />
+      <Footer />
     </Router>
     </>
   )

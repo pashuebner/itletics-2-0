@@ -1,7 +1,7 @@
 import './Menu.css';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { FaTachometerAlt, FaFutbol, FaTrophy, FaChevronLeft } from 'react-icons/fa';
+import { FaTachometerAlt, FaTrophy, FaChevronLeft, FaHockeyPuck } from 'react-icons/fa';
 import logo from '../../assets/logo.png';
 import useWindowSize from '../../functions/useWindowSize';
 import useMobileMenu from '../../functions/useMobileMenu';
@@ -40,7 +40,7 @@ const isSmallScreen = useWindowSize(899);
               to="/Ligenverwaltung" 
               className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
             >
-              <FaFutbol className="nav-icon" />
+              <FaHockeyPuck className="nav-icon" />
               <span>Ligenverwaltung</span>
             </NavLink>
           </li>

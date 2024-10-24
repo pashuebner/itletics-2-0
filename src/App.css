@@ -2,19 +2,19 @@
 [data-theme='dark'] {
   --body-color: #0a0a0c;
   --bg-color: #1c1b22;
-  --text-color: #f0f0f0;
+  --text-color: #e9eff1;
   --acc-color: #279cb3;
   --dark-color: #1c1b22;
-  --bright-color: #f0f0f0;
+  --bright-color: #e9eff1;
 }
 
 [data-theme='light'] {
   --body-color: #fff;
-  --bg-color: #f0f0f0;
+  --bg-color: #e9eff1;
   --text-color: #1f1e25;
   --acc-color: #279cb3;
   --dark-color: #1c1b22;
-  --bright-color: #f0f0f0;
+  --bright-color: #e9eff1;
 }
 
 html, body {

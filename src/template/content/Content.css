@@ -15,13 +15,17 @@
     overflow-y: auto;
     box-shadow: -100vw 0 0 100vw rgba(126, 126, 126, .1), 100vw 0 0 100vw rgba(126, 126, 126, .1);
 }
-.content-inner > *:last-child{
+.content-inner > div{
     margin-bottom:3rem;
 }
+.content-inner > *:last-child{
+    margin-bottom:5rem;
+}
 .loading-bar{
-    transform:translateY(.5rem);
+    transform:translateY(1rem) translateX(.5rem);
     overflow: hidden;
     border-radius:1rem 1rem 0 0;
+    width:cal(100% - 1rem);
 }
 .loading-bar > div{
     background-image:linear-gradient(var(--acc-color) 50%, var(--bg-color) 50%, var(--bg-color));

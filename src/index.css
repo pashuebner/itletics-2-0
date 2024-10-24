@@ -33,8 +33,16 @@ body {
 
 h1 {
   font-size: 3.2em;
-  line-height: 1.1;
+  line-height: 1.5;
+  color:transparent;
   margin-bottom:-.5rem;
+  background-image: linear-gradient(90deg, var(--acc-color), var(--text-color) 30%, var(--acc-color) 60%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  font-weight:900;
+  border-bottom:solid 1px rgba(126,126,126,.2);
+  margin-top:1rem;
+  margin-bottom:3rem;
 }
 
 button {

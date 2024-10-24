@@ -24,3 +24,6 @@
 .cards>.card>div>*:last-child {
     margin-bottom: 0 !important;
 }
+.card > .card-inner:empty{
+    padding:0!important;
+}
