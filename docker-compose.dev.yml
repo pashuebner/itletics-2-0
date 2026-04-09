@@ -1,0 +1,47 @@
+services:
+  sqlite-init:
+    image: python:3.12-alpine
+    restart: "no"
+    volumes:
+      - ./db/init:/input:ro
+      - ./tools/sqlite:/scripts:ro
+      - ./dev-data:/data
+    command: python /scripts/bootstrap_sqlite.py /input/00_init.sql /data/itletics-dev.sqlite
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    restart: unless-stopped
+    depends_on:
+      sqlite-init:
+        condition: service_completed_successfully
+    environment:
+      NODE_ENV: development
+      PORT: 3001
+      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:5173}
+      DATABASE_URL: sqlite:////data/itletics-dev.sqlite
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+      - ./dev-data:/data
+    command: sh -c "npm install --no-audit --no-fund && npm run dev"
+    ports:
+      - "3001:3001"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    restart: unless-stopped
+    depends_on:
+      - backend
+    environment:
+      CHOKIDAR_USEPOLLING: "true"
+      VITE_PROXY_TARGET: http://backend:3001
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+

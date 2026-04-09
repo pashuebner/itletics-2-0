@@ -1,0 +1,219 @@
+/*
+  Reusable form styling for Itletics.
+  Scope everything under .ui-form to avoid side effects.
+*/
+
+.ui-form {
+    --form-surface: color-mix(in srgb, var(--bg-color) 82%, var(--body-color));
+    --form-surface-strong: color-mix(in srgb, var(--bg-color) 65%, var(--text-color) 8%);
+    --form-border: rgba(126, 126, 126, 0.28);
+    --form-border-hover: rgba(126, 126, 126, 0.5);
+    --form-ring: rgba(39, 156, 179, 0.36);
+    --form-muted: color-mix(in srgb, var(--text-color) 68%, transparent);
+    --form-danger: #e25555;
+    --form-success: #2baf68;
+
+    display: grid;
+    gap: 1rem;
+    width: 100%;
+}
+
+.ui-form__row {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+.ui-form__col {
+    grid-column: span 12;
+}
+
+.ui-form__col--6 {
+    grid-column: span 6;
+}
+
+.ui-form__col--4 {
+    grid-column: span 4;
+}
+
+.ui-form__col--3 {
+    grid-column: span 3;
+}
+
+.ui-field {
+    display: grid;
+    gap: 0.45rem;
+    width: 100%;
+}
+
+.ui-field__label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    color: var(--text-color);
+}
+
+.ui-field__hint {
+    font-size: 0.78rem;
+    color: var(--form-muted);
+}
+
+.ui-field__error {
+    font-size: 0.78rem;
+    color: var(--form-danger);
+}
+
+.ui-control,
+.ui-form input[type='text'],
+.ui-form input[type='email'],
+.ui-form input[type='password'],
+.ui-form input[type='number'],
+.ui-form input[type='date'],
+.ui-form input[type='time'],
+.ui-form input[type='search'],
+.ui-form input[type='url'],
+.ui-form input[type='tel'],
+.ui-form input[type='datetime-local'],
+.ui-form select,
+.ui-form textarea {
+    width: 100%;
+    min-height: 44px;
+    border-radius: 0.75rem;
+    border: 1px solid var(--form-border);
+    background: var(--form-surface);
+    color: var(--text-color);
+    padding: 0.65rem 0.8rem;
+    font-family: inherit;
+    font-size: 0.95rem;
+    line-height: 1.25;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    box-sizing: border-box;
+}
+
+.ui-form textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.ui-control::placeholder,
+.ui-form input::placeholder,
+.ui-form textarea::placeholder {
+    color: color-mix(in srgb, var(--text-color) 46%, transparent);
+}
+
+.ui-control:hover,
+.ui-form input:hover,
+.ui-form select:hover,
+.ui-form textarea:hover {
+    border-color: var(--form-border-hover);
+    background: var(--form-surface-strong);
+}
+
+.ui-control:focus,
+.ui-form input:focus,
+.ui-form select:focus,
+.ui-form textarea:focus {
+    outline: none;
+    border-color: var(--acc-color);
+    box-shadow: 0 0 0 4px var(--form-ring);
+    background: var(--form-surface-strong);
+}
+
+.ui-field.is-invalid .ui-control,
+.ui-field.is-invalid input,
+.ui-field.is-invalid select,
+.ui-field.is-invalid textarea {
+    border-color: var(--form-danger);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--form-danger) 24%, transparent);
+}
+
+.ui-field.is-valid .ui-control,
+.ui-field.is-valid input,
+.ui-field.is-valid select,
+.ui-field.is-valid textarea {
+    border-color: var(--form-success);
+}
+
+.ui-checkgroup {
+    display: grid;
+    gap: 0.55rem;
+}
+
+.ui-check {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    color: var(--text-color);
+    font-size: 0.92rem;
+}
+
+.ui-check input[type='checkbox'],
+.ui-check input[type='radio'] {
+    inline-size: 18px;
+    block-size: 18px;
+    accent-color: var(--acc-color);
+    margin: 0;
+}
+
+.ui-form fieldset {
+    margin: 0;
+    padding: 0.75rem 0.9rem;
+    border: 1px solid var(--form-border);
+    border-radius: 0.8rem;
+}
+
+.ui-form legend {
+    padding: 0 0.3rem;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--form-muted);
+}
+
+.ui-form__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 0.25rem;
+}
+
+.ui-form__actions .is-quiet {
+    background: transparent;
+    border: 1px solid var(--form-border);
+    color: var(--text-color);
+}
+
+.ui-form__actions .is-quiet:hover {
+    border-color: var(--form-border-hover);
+    background: color-mix(in srgb, var(--bg-color) 70%, transparent);
+}
+
+.ui-form__divider {
+    border: 0;
+    border-top: 1px solid rgba(126, 126, 126, 0.18);
+    margin: 0.25rem 0;
+}
+
+.ui-form [disabled],
+.ui-form [aria-disabled='true'] {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+@media (max-width: 899px) {
+
+    .ui-form__col--6,
+    .ui-form__col--4,
+    .ui-form__col--3 {
+        grid-column: span 12;
+    }
+
+    .ui-form__actions {
+        justify-content: stretch;
+    }
+
+    .ui-form__actions>* {
+        flex: 1 1 auto;
+    }
+}

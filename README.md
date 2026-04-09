@@ -1,3 +1,41 @@
+## Docker Compose
+
+### Development
+
+Startet Frontend (Vite), Backend im Watch-Mode und erstellt eine SQLite-Testdatenbank aus [db/init/00_init.sql](db/init/00_init.sql).
+
+```bash
+docker compose up -d --build
+```
+
+Alternativ explizit:
+
+```bash
+docker compose -f docker-compose.dev.yml up -d --build
+```
+
+Services:
+
+- Frontend: http://localhost:5173
+- Backend: http://localhost:3001
+- SQLite DB: [dev-data/itletics-dev.sqlite](dev-data/itletics-dev.sqlite)
+
+Nur SQLite neu erzeugen:
+
+```bash
+docker compose -f docker-compose.dev.yml run --rm sqlite-init
+```
+
+### Production
+
+Startet Frontend (Nginx) und Backend in Production.
+
+```bash
+docker compose -f docker-compose.prod.yml up -d --build
+```
+
+Hinweis: In Prod muss `DATABASE_URL` gesetzt sein (z. B. per `.env` oder CI/CD-Secret).
+
 # React + TypeScript + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
@@ -18,11 +56,11 @@ export default tseslint.config({
   languageOptions: {
     // other options...
     parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      project: ["./tsconfig.node.json", "./tsconfig.app.json"],
       tsconfigRootDir: import.meta.dirname,
     },
   },
-})
+});
 ```
 
 - Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
@@ -31,11 +69,11 @@ export default tseslint.config({
 
 ```js
 // eslint.config.js
-import react from 'eslint-plugin-react'
+import react from "eslint-plugin-react";
 
 export default tseslint.config({
   // Set the react version
-  settings: { react: { version: '18.3' } },
+  settings: { react: { version: "18.3" } },
   plugins: {
     // Add the react plugin
     react,
@@ -44,7 +82,7 @@ export default tseslint.config({
     // other rules...
     // Enable its recommended rules
     ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
+    ...react.configs["jsx-runtime"].rules,
   },
-})
+});
 ```
