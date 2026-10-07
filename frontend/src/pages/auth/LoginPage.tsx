@@ -121,7 +121,10 @@ function LoginPage() {
                 <li key={user.id}>
                   <button
                     type="button"
-                    onClick={() => setLoginName(user.loginName)}
+                    onClick={() => {
+                      setLoginName(user.loginName);
+                      setPassword(user.testPassword);
+                    }}
                     className={isSelected ? 'selected' : ''}
                   >
                     <span>{user.firstName} {user.lastName}</span>

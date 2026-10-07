@@ -8,6 +8,12 @@ interface LeagueRow extends Record<string, unknown> {
   league_id: number;
   description: string;
   association_id: number;
+  logo_path: string | null;
+}
+
+interface AssociationRow extends Record<string, unknown> {
+  association_id: number;
+  association: string;
 }
 
 function buildMeta(entries: Array<string | null | undefined | false>): string[] {
@@ -30,8 +36,16 @@ function LeagueManagementPage() {
       setError(null);
 
       try {
-        const raw = await apiManagement.leagues.list({ limit: 100, sortBy: 'league_id' });
-        const leaguesResponse = raw as unknown as DatabaseRowsResponse<LeagueRow>;
+        const [leagueRaw, associationsRaw] = await Promise.all([
+          apiManagement.leagues.list({ limit: 100, sortBy: 'league_id' }),
+          apiManagement.masterData.associations.list({ limit: 500, sortBy: 'association_id' }),
+        ]);
+        const leaguesResponse = leagueRaw as unknown as DatabaseRowsResponse<LeagueRow>;
+        const associationsResponse = associationsRaw as unknown as DatabaseRowsResponse<AssociationRow>;
+
+        const associationNameById = new Map<number, string>(
+          associationsResponse.rows.map((row) => [Number(row.association_id), String(row.association)])
+        );
 
         if (!isMounted) {
           return;
@@ -49,8 +63,24 @@ function LeagueManagementPage() {
             items: leaguesResponse.rows.map((league) => ({
               id: league.league_id,
               title: league.description,
-              subtitle: `Liga-ID ${league.league_id}`,
-              meta: buildMeta([`Verband ${league.association_id}`]),
+              subtitle: league.logo_path ? (
+                <img
+                  className="table_logo"
+                  width={50}
+                  height={50}
+                  style={{objectFit:"contain"}}
+                  src={league.logo_path}
+                  alt={`Logo ${league.description}`}
+                  loading="lazy"
+                />
+              ) : (
+                <div style={{ width: 50, height: 50, backgroundColor: 'rgba(125, 125, 125, 0.2)', borderRadius: '50%' }} />
+              ),
+              meta: buildMeta([
+                associationNameById.get(Number(league.association_id))
+                  ? `Verband ${associationNameById.get(Number(league.association_id))}`
+                  : `Verband-ID: ${league.association_id}`,
+              ]),
             })),
           },
         ]);

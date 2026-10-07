@@ -93,6 +93,7 @@ export interface LoginResponse {
 export interface TestUserSummary {
   id: number;
   loginName: string;
+  testPassword: string;
   email: string;
   firstName: string;
   lastName: string;
@@ -104,4 +105,12 @@ export interface TestUserSummary {
 
 export interface TestUsersResponse {
   users: TestUserSummary[];
+}
+
+export interface UploadResponse {
+  success: boolean;
+  filename: string;
+  path: string;
+  size: number;
+  mimetype: string;
 }

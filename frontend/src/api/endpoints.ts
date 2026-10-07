@@ -13,6 +13,9 @@ export const endpoints = {
     // refresh: '/auth/refresh',
     // logout: '/auth/logout',
   },
+  upload: {
+    logo: '/upload/logo',
+  },
   users: {
     // me: '/users/me',
   },

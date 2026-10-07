@@ -1,5 +1,6 @@
 import { endpoints } from './endpoints';
 import { httpClient } from './httpClient';
+import { API_BASE_URL } from './config';
 import type {
   LoginRequest,
   LoginResponse,
@@ -8,6 +9,7 @@ import type {
   DatabaseRowResponse,
   DatabaseRowsResponse,
   DatabaseTablesResponse,
+  UploadResponse,
 } from './types';
 
 type DatabaseRecord = Record<string, unknown>;
@@ -206,10 +208,47 @@ const auth = {
   listTestUsers: () => httpClient.get<TestUsersResponse>(endpoints.auth.testUsers),
 };
 
+const files = {
+  uploadLogo: async (file: File): Promise<UploadResponse> => {
+    const formData = new FormData();
+    formData.append('file', file);
+
+    const normalizedBase = API_BASE_URL.endsWith('/') ? API_BASE_URL.slice(0, -1) : API_BASE_URL;
+    const normalizedPath = endpoints.upload.logo.startsWith('/') ? endpoints.upload.logo : `/${endpoints.upload.logo}`;
+
+    const response = await fetch(`${normalizedBase}${normalizedPath}`, {
+      method: 'POST',
+      body: formData,
+      credentials: 'include',
+    });
+
+    if (!response.ok) {
+      let errorMessage = `Upload fehlgeschlagen (HTTP ${response.status})`;
+      try {
+        const errorData = await response.json() as { error?: string };
+        if (errorData.error) {
+          errorMessage = errorData.error;
+        }
+      } catch {
+        // Wenn die Response kein JSON ist, nutze HTTP-Status als Fallback
+        errorMessage = response.statusText || errorMessage;
+      }
+      throw new Error(errorMessage);
+    }
+
+    try {
+      return await response.json() as UploadResponse;
+    } catch (parseError) {
+      throw new Error(`Upload-Response konnte nicht geparst werden: ${parseError instanceof Error ? parseError.message : 'Unbekannter Fehler'}`);
+    }
+  },
+};
+
 export const apiManagement = {
   health: () => httpClient.get<{ status?: string; [key: string]: unknown }>(endpoints.health),
   auth,
   database,
+  files,
   users,
   teams,
   leagues,

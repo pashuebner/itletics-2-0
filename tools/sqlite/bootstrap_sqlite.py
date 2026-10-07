@@ -4,6 +4,78 @@ import sys
 from pathlib import Path
 
 
+def extract_primary_keys(sql_text: str) -> dict[str, str]:
+    primary_keys: dict[str, str] = {}
+
+    for match in re.finditer(r"ALTER\s+TABLE\s+`(?P<table>[^`]+)`\s+(?P<body>[\s\S]*?);", sql_text, flags=re.IGNORECASE):
+        primary_key_match = re.search(r"ADD\s+PRIMARY\s+KEY\s*\(\s*`(?P<column>[^`]+)`\s*\)", match.group("body"), flags=re.IGNORECASE)
+        if primary_key_match:
+            primary_keys[match.group("table")] = primary_key_match.group("column")
+
+    return primary_keys
+
+
+def extract_auto_increment_columns(sql_text: str) -> dict[str, str]:
+    auto_increment_columns: dict[str, str] = {}
+
+    for match in re.finditer(r"ALTER\s+TABLE\s+`(?P<table>[^`]+)`\s+(?P<body>[\s\S]*?);", sql_text, flags=re.IGNORECASE):
+        auto_increment_match = re.search(
+            r"MODIFY\s+`(?P<column>[^`]+)`\s+[^;]*?AUTO_INCREMENT",
+            match.group("body"),
+            flags=re.IGNORECASE,
+        )
+        if auto_increment_match:
+            auto_increment_columns[match.group("table")] = auto_increment_match.group("column")
+
+    return auto_increment_columns
+
+
+def inject_primary_keys_into_create_tables(
+    sql_text: str,
+    primary_keys: dict[str, str],
+    auto_increment_columns: dict[str, str],
+) -> str:
+    create_table_pattern = re.compile(
+        r"CREATE\s+TABLE\s+`(?P<table>[^`]+)`\s*\((?P<body>[\s\S]*?)\)\s*ENGINE[^;]*;",
+        flags=re.IGNORECASE,
+    )
+
+    def replace_create_table(match: re.Match[str]) -> str:
+        table_name = match.group("table")
+        body = match.group("body")
+        primary_key = primary_keys.get(table_name)
+
+        if not primary_key:
+            return match.group(0)
+
+        auto_increment_column = auto_increment_columns.get(table_name)
+        updated_lines: list[str] = []
+
+        for line in body.splitlines():
+            column_match = re.match(r"^(?P<indent>\s*)`(?P<column>[^`]+)`\s+(?P<definition>.*?)(?P<comma>,?)\s*$", line)
+            if not column_match or column_match.group("column") != primary_key:
+                updated_lines.append(line)
+                continue
+
+            indent = column_match.group("indent")
+            column_name = column_match.group("column")
+            definition = column_match.group("definition")
+            comma = column_match.group("comma")
+
+            if auto_increment_column == column_name and re.search(r"\b(?:tinyint|smallint|mediumint|bigint|int|integer)\b", definition, flags=re.IGNORECASE):
+                updated_lines.append(f"{indent}`{column_name}` INTEGER PRIMARY KEY AUTOINCREMENT{comma}")
+                continue
+
+            cleaned_definition = re.sub(r"\bPRIMARY\s+KEY\b", "", definition, flags=re.IGNORECASE)
+            cleaned_definition = re.sub(r"\bNOT\s+NULL\b", "", cleaned_definition, flags=re.IGNORECASE)
+            cleaned_definition = re.sub(r"\s+", " ", cleaned_definition).strip()
+            updated_lines.append(f"{indent}`{column_name}` {cleaned_definition} PRIMARY KEY{comma}".rstrip())
+
+        return f"CREATE TABLE `{table_name}` (\n" + "\n".join(updated_lines) + "\n);"
+
+    return create_table_pattern.sub(replace_create_table, sql_text)
+
+
 def transform_mysql_dump(sql_text: str) -> str:
     transformed = sql_text
 
@@ -20,6 +92,10 @@ def transform_mysql_dump(sql_text: str) -> str:
 
     # Remove optional database qualifiers in table names like `itletics`.`table`.
     transformed = transformed.replace("`itletics`.", "")
+
+    primary_keys = extract_primary_keys(transformed)
+    auto_increment_columns = extract_auto_increment_columns(transformed)
+    transformed = inject_primary_keys_into_create_tables(transformed, primary_keys, auto_increment_columns)
 
     # Remove ALTER TABLE blocks that are MySQL-specific or not critical for dev data preview.
     transformed = re.sub(r"ALTER\s+TABLE[\s\S]*?;", "", transformed, flags=re.IGNORECASE)

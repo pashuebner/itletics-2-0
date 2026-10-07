@@ -36,6 +36,34 @@ function inferPrimaryKey(columns: TableColumn[]): string | null {
 		?? null;
 }
 
+function getPrimaryKeyColumn(table: TableMetadata): TableColumn | undefined {
+	if (!table.primaryKey) {
+		return undefined;
+	}
+
+	return table.columns.find((column) => column.name === table.primaryKey);
+}
+
+function isNumericColumnType(columnType: string): boolean {
+	return /\b(?:tinyint|smallint|mediumint|bigint|int|integer)\b/i.test(columnType);
+}
+
+function getNextNumericPrimaryKeyValue(database: Database, table: TableMetadata): number | null {
+	const primaryKeyColumn = getPrimaryKeyColumn(table);
+	if (!primaryKeyColumn || !isNumericColumnType(primaryKeyColumn.type)) {
+		return null;
+	}
+
+	const result = normalizeExecRows(
+		database.exec(
+			`SELECT COALESCE(MAX(${quoteIdentifier(primaryKeyColumn.name)}), 0) + 1 AS next_id FROM ${quoteIdentifier(table.name)};`
+		)[0]
+	);
+
+	const nextId = Number(result[0]?.next_id ?? 1);
+	return Number.isFinite(nextId) ? nextId : 1;
+}
+
 function getDatabaseFilePath(): string {
 	const databaseUrl = process.env.DATABASE_URL;
 	if (!databaseUrl) {
@@ -220,8 +248,19 @@ export async function getRowById(tableName: string, rowId: string): Promise<Reco
 export async function insertRow(tableName: string, payload: Record<string, unknown>): Promise<Record<string, unknown> | null> {
 	const table = await ensureTableExists(tableName);
 	const database = await getDatabase();
+	const normalizedPayload = { ...payload };
 
-	const entries = Object.entries(payload).filter(([column]) => table.columns.some((tableColumn) => tableColumn.name === column));
+	if (table.primaryKey) {
+		const providedPrimaryKey = normalizedPayload[table.primaryKey];
+		if (providedPrimaryKey === undefined || providedPrimaryKey === null || providedPrimaryKey === '') {
+			const generatedPrimaryKey = getNextNumericPrimaryKeyValue(database, table);
+			if (generatedPrimaryKey !== null) {
+				normalizedPayload[table.primaryKey] = generatedPrimaryKey;
+			}
+		}
+	}
+
+	const entries = Object.entries(normalizedPayload).filter(([column]) => table.columns.some((tableColumn) => tableColumn.name === column));
 	if (entries.length === 0) {
 		throw new Error('No valid columns provided');
 	}
@@ -241,7 +280,7 @@ export async function insertRow(tableName: string, payload: Record<string, unkno
 		return null;
 	}
 
-	const providedPrimaryKey = payload[table.primaryKey];
+	const providedPrimaryKey = normalizedPayload[table.primaryKey];
 	if (providedPrimaryKey !== undefined && providedPrimaryKey !== null) {
 		return getRowById(table.name, String(providedPrimaryKey));
 	}

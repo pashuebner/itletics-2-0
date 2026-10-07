@@ -1,0 +1,28 @@
+.entity-create-form h2 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--text-color);
+}
+
+.entity-create-form__message {
+    margin: 0;
+    padding: 0.65rem 0.8rem;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+}
+
+.entity-create-form__message--error {
+    border: 1px solid rgba(226, 85, 85, 0.45);
+    background: rgba(226, 85, 85, 1);
+    color: white;
+}
+
+.entity-create-form__message--success {
+    border: 1px solid rgba(43, 175, 104, 0.15);
+    background: rgba(43, 175, 104, 1);
+    color: white;
+}
+
+.entity-create-form input, .entity-create-form select, .entity-create-form textarea, .entity-create-form fieldset:has(.ui-checkgroup) {
+    background: var(--body-color) !important;
+}

@@ -63,6 +63,11 @@ async function verifyPassword(plainPassword: string, storedPassword: string): Pr
     return false;
   }
 
+  // Dev fallback: allow direct match when UI uses the stored value from /test-users.
+  if (plainPassword === storedPassword) {
+    return true;
+  }
+
   if (storedPassword.startsWith('$2y$') || storedPassword.startsWith('$2a$') || storedPassword.startsWith('$2b$')) {
     const normalizedHash = storedPassword.startsWith('$2y$')
       ? `$2a$${storedPassword.slice(4)}`
@@ -115,7 +120,7 @@ authRouter.get('/test-users', async (_req, res, next) => {
   try {
     const usersRaw = await selectRows(
       `
-        SELECT user_id, login_name, email, first_name, last_name, is_verified
+        SELECT user_id, login_name, password, email, first_name, last_name, is_verified
         FROM md_user
         ORDER BY user_id ASC;
       `
@@ -129,6 +134,7 @@ authRouter.get('/test-users', async (_req, res, next) => {
       return {
         id: userId,
         loginName: asString(row.login_name),
+        testPassword: asString(row.password),
         email: asString(row.email),
         firstName: asString(row.first_name),
         lastName: asString(row.last_name),

@@ -2,6 +2,7 @@ import PageTemplate from './PageTemplate';
 
 function TeamCreatePage() {
   return (
+    <>
     <PageTemplate
       eyebrow="Teams"
       title="Team anlegen"
@@ -13,6 +14,10 @@ function TeamCreatePage() {
         { label: 'Schritt 3', value: 'Freigabe', detail: 'Validierung und Übergabe an die Verwaltungsorganisation.' },
       ]}
     />
+    <form>
+
+    </form>
+    </>
   );
 }
 
